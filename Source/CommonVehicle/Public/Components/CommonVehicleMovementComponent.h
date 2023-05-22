@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGearChangedSignature, int32, Old
 UCLASS(ClassGroup = (Physics), meta = (BlueprintSpawnableComponent), 
     HideCategories = (PlanarMovement, "Components|Movement|Planar", Activation, 
     "Components|Activation"))
-class VEHICLE_API UCommonVehicleMovementComponent : public UChaosWheeledVehicleMovementComponent
+class COMMONVEHICLE_API UCommonVehicleMovementComponent : public UChaosWheeledVehicleMovementComponent
 {
     GENERATED_BODY()
 
@@ -91,7 +91,7 @@ protected:
     virtual TUniquePtr<Chaos::FSimpleWheeledVehicle> CreatePhysicsVehicle() override
     {
         // Make the Vehicle Simulation class that will be updated from the physics thread async callback
-        VehicleSimulationPT = MakeUnique<UMyChaosWheeledVehicleSimulation>();
+        VehicleSimulationPT = MakeUnique<UCommonChaosWheeledVehicleSimulation>();
 
         return UChaosVehicleMovementComponent::CreatePhysicsVehicle();
     }

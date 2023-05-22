@@ -71,7 +71,7 @@ float UCommonVehicleMovementComponent::GetEngineRPM() const
     return EngineRPM;
 }
 
-void UMyChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOutput& Output)
+void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOutput& Output)
 {
 	// #Note: remember to copy/interpolate values from the physics thread output in UChaosVehicleMovementComponent::ParallelUpdate
 	const auto& VehicleWheels = PVehicle->Wheels;

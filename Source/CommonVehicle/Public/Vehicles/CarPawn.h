@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Vehicle.h"
 #include "WheeledVehiclePawn.h"
 #include "CarPawn.generated.h"
 
@@ -17,7 +18,7 @@ enum class ELightState : uint8
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCarPawnOnLightStateChanged, ELightState, OldState, ELightState, NewState);
 
 UCLASS(Abstract, Blueprintable)
-class COMMONVEHICLE_API ACarPawn : public AWheeledVehiclePawn
+class COMMONVEHICLE_API ACarPawn : public AWheeledVehiclePawn, public IVehicle
 {
     GENERATED_BODY()
 
