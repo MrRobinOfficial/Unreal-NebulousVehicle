@@ -14,7 +14,7 @@
 #
 
 ## ⚙️ Supported Platforms
-This plug-in was last built against Unreal Engine 5.2. It should work on all platforms, since it made with raw c++ code and basic Unreal Engine features.
+This plug-in was last built against Unreal Engine **5.2**. It was built with [*Enhanced Input*](https://docs.unrealengine.com/5.2/en-US/enhanced-input-in-unreal-engine/) plugin. However, since version **5.1**, the legacy input system is now being deprecated and will be replaced by the Enhanced Input system.
 
 Chaos Vehicles is Unreal Engine's lightweight system for performing vehicle physics simulations. You can read more about Chaos Vehicles and how to get [*started*](https://docs.unrealengine.com/5.2/en-US/how-to-set-up-vehicles-in-unreal-engine/).
 
@@ -22,7 +22,7 @@ Chaos Vehicles is Unreal Engine's lightweight system for performing vehicle phys
 
 You can either install via Epic Games Marketplace.
 
-[*Here*](https://www.unrealengine.com/marketplace/en-US/product/mannequins-asset-pack) is the link.
+[*Here*]() is the link.
 
 Or you can install via [*git*](https://git-scm.com/). Here is the command for installing it.
 
