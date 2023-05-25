@@ -50,3 +50,4 @@ If you have any questions or issue, just write either to my [YouTube channel](ht
 
 ## 🔗 References
 - [Introduction to Unreal Engine Plugins](https://docs.unrealengine.com/5.0/en-US/plugins-in-unreal-engine/)
+- [Documentation for Vehicles in Unreal Engine(https://docs.unrealengine.com/5.2/en-US/vehicles-in-unreal-engine/)
