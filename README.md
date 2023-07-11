@@ -7,6 +7,7 @@
 <div align="center">
   
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrrobinofficial/unreal-commonvehicle/blob/HEAD/LICENSE.txt)
+![plugin-status](https://img.shields.io/badge/plugin_status-wip-yellow)
 ![maintenance-status](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
 
 </div>
