@@ -21,11 +21,9 @@ Chaos Vehicles is Unreal Engine's lightweight system for performing vehicle phys
 
 ## ⚒️ Installation
 
-You can either install via Epic Games Marketplace.
+You can install via [Epic Games Marketplace](#).
 
-[*Here*]() is the link.
-
-Or you can install via [*git*](https://git-scm.com/). Here is the command for installing it.
+Or you can install via [*git*](https://git-scm.com/) on your terminal. Here is the command for installing it:
 
 ```console
 git clone git@github.com:MrRobinOfficial/Unreal-CommonVehicle.git CommonVehicle
