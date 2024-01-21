@@ -1,4 +1,4 @@
-// Copyright 2023 MrRobin. All Rights Reserved.
+// Copyright 2023-2024 MrRobin. All Rights Reserved.
 
 #pragma once
 
@@ -6,7 +6,8 @@
 #include "ChaosWheeledVehicleMovementComponent.h"
 #include "CommonVehicleMovementComponent.generated.h"
 
-class COMMONVEHICLE_API UCommonChaosWheeledVehicleSimulation : public UChaosWheeledVehicleSimulation
+class COMMONVEHICLE_API UCommonChaosWheeledVehicleSimulation
+    : public UChaosWheeledVehicleSimulation
 {
 public:
     virtual void FillOutputState(FChaosVehicleAsyncOutput& Output) override;
