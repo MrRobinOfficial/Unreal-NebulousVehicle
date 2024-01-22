@@ -4,28 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
-#include "CommonVehicleMovementComponent.generated.h"
+#include "CarMovementComponent.generated.h"
 
 class COMMONVEHICLE_API UCommonChaosWheeledVehicleSimulation
     : public UChaosWheeledVehicleSimulation
 {
 public:
-    virtual void FillOutputState(FChaosVehicleAsyncOutput& Output) override;
+    void FillOutputState(FChaosVehicleAsyncOutput& Output) override;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEngineStateChangedSignature, bool, bOldState, bool, bNewState);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGearChangedSignature, int32, OldGearNum, int32, NewGearNum);
 
-UCLASS(ClassGroup = (Physics), meta = (BlueprintSpawnableComponent), 
+UCLASS(
+    ClassGroup = (Physics),
+    meta = (BlueprintSpawnableComponent), 
     HideCategories = (PlanarMovement, "Components|Movement|Planar", Activation, 
-    "Components|Activation"))
-class COMMONVEHICLE_API UCommonVehicleMovementComponent : public UChaosWheeledVehicleMovementComponent
+    "Components|Activation")
+)
+class COMMONVEHICLE_API UCarMovementComponent : public UChaosWheeledVehicleMovementComponent
 {
     GENERATED_BODY()
 
 public:
-    UCommonVehicleMovementComponent();
+    UCarMovementComponent();
 
     UPROPERTY(BlueprintAssignable)
     FOnEngineStateChangedSignature OnEngineStateChanged;
@@ -98,13 +101,13 @@ protected:
     }
 
 protected:
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
     float ClutchEngageThreshold = 0.5f;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
     float ClutchDisengageFactor = 0.1f;
 
 protected:
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, VisibleAnywhere, Category = "Variables")
     float RawClutchInput;
 };
