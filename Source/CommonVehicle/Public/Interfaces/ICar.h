@@ -60,21 +60,8 @@ public:
 	float GetEngineRPM() const;
 
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Car|Properties|Engine")
 	bool IsEngineRunning() const;
 
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Car|Setters|Engine")
-	void SetEngineEnabled(bool bEnabled);
 
-public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Car|Getters|Clutch")
-	float GetClutchRatio() const;
-
-public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Car|Getters|Gearbox")
-	int32 GetGearIndex() const;
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Car|Getters|Gearbox")
-	int32 GetNumOfGears() const;
 };

@@ -19,12 +19,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGearChangedSignature, int32, Old
 
 UCLASS(ClassGroup = (Physics), meta = (BlueprintSpawnableComponent), 
     HideCategories = (PlanarMovement, "Components|Movement|Planar", Activation, 
-    "Components|Activation"))
 class COMMONVEHICLE_API UCarMovementComponent : public UChaosWheeledVehicleMovementComponent
 {
     GENERATED_BODY()
 
-protected:
     UPROPERTY(BlueprintAssignable)
     FOnEngineStateChangedSignature OnEngineStateChanged;
 
@@ -59,83 +57,55 @@ protected:
 
 public:
     /**  */
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
     FORCEINLINE float GetClutchInput() const { return RawClutchInput; }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
-    FORCEINLINE float GetTorqueReductionFactor() const
-    {
-        if (RawClutchInput >= ClutchEngageThreshold)
-            return 1.0f;
 
-        return FMath::GetMappedRangeValueClamped(
-            FVector2D(0.0f, ClutchEngageThreshold),
-            FVector2D(1.0f, ClutchDisengageFactor),
-            RawClutchInput
-        );
-    }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
-    FORCEINLINE float GetEngineRPM() const
-    {
-        float EngineRPM = 0.f;
-
-        if (bMechanicalSimEnabled && PVehicleOutput)
-        {
-            EngineRPM = PVehicleOutput->EngineRPM;
-        }
-
-        return EngineRPM;
-    }
-
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
     FORCEINLINE float GetEngineIdleRPM() const { return EngineSetup.EngineIdleRPM; }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
     FORCEINLINE float GetEngineMaxRPM() const { return EngineSetup.MaxRPM; }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
     FORCEINLINE float GetEngineMaxTorque() const { return EngineSetup.MaxTorque; }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
     FORCEINLINE FRuntimeFloatCurve GetEngineCurve() const { return EngineSetup.TorqueCurve; }
 
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement")
-    FORCEINLINE bool GetEngineState() const { return  bMechanicalSimEnabled; }
+
+
 
 public:
-    UFUNCTION(BlueprintPure = false, Category = "Game|Components|CarMovement")
-    FORCEINLINE FVector GetAcceleration() const { return FVector::ZeroVector; }
-
-    UFUNCTION(BlueprintPure = false, Category = "Game|Components|CarMovement")
-    FORCEINLINE FVector GetVelocity() const { return FVector::ZeroVector; }
-
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement", meta = (DisplayName = "Get Forward Speed [m/s]"))
-    FORCEINLINE float GetSpeedInCM() const { return GetForwardSpeed() * UE_CM_TO_M; }
-
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement", meta = (DisplayName = "Get Forward Speed [km/h]"))
-    FORCEINLINE float GetSpeedInKPH() const { return Chaos::CmSToKmH(GetForwardSpeed()); }
-
-    UFUNCTION(BlueprintPure, Category = "Game|Components|CarMovement", meta = (DisplayName = "Get Forward Speed [mph]"))
-    FORCEINLINE float GetSpeedInMPH() const { return Chaos::CmSToMPH(GetForwardSpeed()); }
-
-public:
-    UFUNCTION(BlueprintCallable, Category="Game|Components|CarMovement")
     void SetClutchInput(float Clutch);
 
-    UFUNCTION(BlueprintCallable, Category="Game|Components|CarMovement")
     void IncreaseClutchInput(float ClutchDelta);
 
-    UFUNCTION(BlueprintCallable, Category="Game|Components|CarMovement")
     void DecreaseClutchInput(float ClutchDelta);
 
 public:
-    UFUNCTION(BlueprintCallable, Category = "Game|Components|CarMovement")
     void ToggleEngineState();
 
-    UFUNCTION(BlueprintCallable, Category="Game|Components|CarMovement")
     void SetEngineState(bool bEnabled);
 
-    UFUNCTION(BlueprintCallable, Category = "Game|Components|CarMovement")
     float GetTorqueFromRPM(float EngineRPM);
+
+protected:
+    virtual void ClearRawInput() override;
+
+    ///** */
+    virtual TUniquePtr<Chaos::FSimpleWheeledVehicle> CreatePhysicsVehicle() override
+    {
+        // Make the Vehicle Simulation class that will be updated from the physics thread async callback
+        VehicleSimulationPT = MakeUnique<UCommonChaosWheeledVehicleSimulation>();
+
+        return UChaosVehicleMovementComponent::CreatePhysicsVehicle();
+    }
+
+protected:
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
+    float ClutchEngageThreshold = 0.5f;
+
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "1.0", UIMax = "1.0"))
+    float ClutchDisengageFactor = 0.1f;
+
+protected:
+    UPROPERTY(Transient, VisibleAnywhere, Category = "Variables")
+    float RawClutchInput;
 };
