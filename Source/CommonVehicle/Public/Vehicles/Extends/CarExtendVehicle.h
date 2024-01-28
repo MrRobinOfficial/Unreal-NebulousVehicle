@@ -3,9 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Pawns/Driveables/CarDriveable.h"
+
+#include "Vehicles/CarVehicle.h"
 #include "Interfaces/IVehicleExtend.h"
-#include "CarVehicle.generated.h"
+
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+
+#include "CarExtendVehicle.generated.h"
 
 UENUM(BlueprintType)
 enum class ELightState : uint8
@@ -18,8 +23,8 @@ enum class ELightState : uint8
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCarLightChanged, ELightState, OldState, ELightState, NewState);
 
 UCLASS(Abstract, Blueprintable)
-class COMMONVEHICLE_API ACarVehicle
-    : public ACarDriveable
+class COMMONVEHICLE_API ACarExtendVehicle
+    : public ACarVehicle
     , public IVehicleExtend
 {
     GENERATED_BODY()
@@ -49,8 +54,15 @@ protected:
     UPROPERTY(Transient, VisibleAnywhere, Category = "Variables")
     bool bIsHonking;
 
+protected:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Components")
+    TObjectPtr<USpringArmComponent> SpringArm;
+
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Components")
+    TObjectPtr<UCameraComponent> Camera;
+
 public:
-    ACarVehicle(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+    ACarExtendVehicle(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 public:
     UFUNCTION(BlueprintPure, Category = "Pawns|Vehicles|Car|Getters")

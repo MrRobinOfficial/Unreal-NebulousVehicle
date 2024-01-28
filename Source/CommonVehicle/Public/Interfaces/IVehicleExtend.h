@@ -29,7 +29,26 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Properties")
 	bool IsDestroyed() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Properties")
+	bool IsInvincible() const;
+
 public:
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Events")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Setters")
+	void SetInvincible(bool bInvincible);
+
+public:
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Funcs")
 	void Explode();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Funcs")
+	void Repair();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Funcs")
+	void BringToHalt();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Funcs")
+	void PlaceOnGround();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Vehicle Extend|Funcs")
+	void SoundHorn(float Duration);
 };

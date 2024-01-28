@@ -1,31 +1,31 @@
 // Copyright 2023-2024 MrRobin. All Rights Reserved.
 
-#include "Components/CommonVehicleMovementComponent.h"
+#include "Components/CarMovementComponent.h"
 
-UCommonVehicleMovementComponent::UCommonVehicleMovementComponent()
+UCarMovementComponent::UCarMovementComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
     PrimaryComponentTick.bStartWithTickEnabled = true;
 }
 
-void UCommonVehicleMovementComponent::SetClutchInput(float Clutch)
+void UCarMovementComponent::SetClutchInput(float Clutch)
 {
     RawClutchInput = FMath::Clamp(Clutch, 0.0f, 1.0f);
 }
 
-void UCommonVehicleMovementComponent::IncreaseClutchInput(float ClutchDelta)
+void UCarMovementComponent::IncreaseClutchInput(float ClutchDelta)
 {
     RawClutchInput = FMath::Clamp(RawClutchInput + ClutchDelta, 0.f, 1.0f);
 }
 
-void UCommonVehicleMovementComponent::DecreaseClutchInput(float ClutchDelta)
+void UCarMovementComponent::DecreaseClutchInput(float ClutchDelta)
 {
     RawClutchInput = FMath::Clamp(RawClutchInput - ClutchDelta, 0.f, 1.0f);
 }
 
-void UCommonVehicleMovementComponent::ToggleEngineState() { SetEngineState(!GetEngineState()); }
+void UCarMovementComponent::ToggleEngineState() { SetEngineState(!GetEngineState()); }
 
-void UCommonVehicleMovementComponent::SetEngineState(bool bEnabled)
+void UCarMovementComponent::SetEngineState(bool bEnabled)
 {
     if (bMechanicalSimEnabled == bEnabled)
         return;
@@ -35,40 +35,16 @@ void UCommonVehicleMovementComponent::SetEngineState(bool bEnabled)
     bMechanicalSimEnabled = bEnabled;
 }
 
-float UCommonVehicleMovementComponent::GetTorqueFromRPM(float EngineRPM)
+float UCarMovementComponent::GetTorqueFromRPM(float EngineRPM)
 {
     return EngineSetup.GetTorqueFromRPM(EngineRPM);
 }
 
-void UCommonVehicleMovementComponent::ClearRawInput()
+void UCarMovementComponent::ClearRawInput()
 {
     Super::ClearRawInput();
 
     RawClutchInput = 0.0f;
-}
-
-float UCommonVehicleMovementComponent::GetTorqueReductionFactor() const
-{
-    if (RawClutchInput >= ClutchEngageThreshold)
-        return 1.0f;
-
-    return FMath::GetMappedRangeValueClamped(
-        FVector2D(0.0f, ClutchEngageThreshold),
-        FVector2D(1.0f, ClutchDisengageFactor),
-        RawClutchInput
-    );
-}
-
-float UCommonVehicleMovementComponent::GetEngineRPM() const
-{
-    float EngineRPM = 0.f;
-
-    if (bMechanicalSimEnabled && PVehicleOutput)
-    {
-        EngineRPM = PVehicleOutput->EngineRPM;
-    }
-
-    return EngineRPM;
 }
 
 void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOutput& Output)
@@ -76,6 +52,7 @@ void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOut
 	// #Note: remember to copy/interpolate values from the physics thread output in UChaosVehicleMovementComponent::ParallelUpdate
 	const auto& VehicleWheels = PVehicle->Wheels;
 	auto& VehicleSuspension = PVehicle->Suspension;
+
 	if (PVehicle->HasTransmission())
 	{
 		auto& Transmission = PVehicle->GetTransmission();
@@ -87,6 +64,7 @@ void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOut
 
 		Output.VehicleSimOutput.TransmissionTorque = Transmission.GetTransmissionTorque(PVehicle->GetEngine().GetTorqueFromRPM(true));
 	}
+
 	if (PVehicle->HasEngine())
 	{
 		auto& Engine = PVehicle->GetEngine();

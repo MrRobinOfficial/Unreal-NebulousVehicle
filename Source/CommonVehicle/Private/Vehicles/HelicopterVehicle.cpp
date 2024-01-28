@@ -1,8 +1,8 @@
 // Copyright 2023-2024 MrRobin. All Rights Reserved.
 
-#include "Pawns/BoatBase.h"
+#include "Vehicles/HelicopterVehicle.h"
 
-ABoatBase::ABoatBase(const FObjectInitializer& ObjectInitializer)
+AHelicopterVehicle::AHelicopterVehicle(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
     PrimaryActorTick.bCanEverTick = true;

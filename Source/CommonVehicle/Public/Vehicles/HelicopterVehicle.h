@@ -5,15 +5,15 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Interfaces/IVehicle.h"
-#include "AircraftBase.generated.h"
+#include "HelicopterVehicle.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class COMMONVEHICLE_API AAircraftBase
+class COMMONVEHICLE_API AHelicopterVehicle
     : public APawn
     , public IVehicle
 {
     GENERATED_BODY()
 
 public:
-    AAircraftBase(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+    AHelicopterVehicle(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 };
