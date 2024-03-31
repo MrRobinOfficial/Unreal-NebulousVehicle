@@ -47,7 +47,7 @@ void UCarMovementComponent::ClearRawInput()
     RawClutchInput = 0.0f;
 }
 
-void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOutput& Output)
+void UNebulousChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOutput& Output)
 {
 	// #Note: remember to copy/interpolate values from the physics thread output in UChaosVehicleMovementComponent::ParallelUpdate
 	const auto& VehicleWheels = PVehicle->Wheels;
@@ -107,4 +107,24 @@ void UCommonChaosWheeledVehicleSimulation::FillOutputState(FChaosVehicleAsyncOut
 
 		Output.VehicleSimOutput.Wheels.Add(WheelsOut);
 	}
+}
+
+void UCarMovementComponent::SetSpeedLimiter(bool bEnabled, float TargetSpeed)
+{
+	bEnableSpeedLimiter = bEnabled;
+
+	if (TargetSpeed <= 0.0f)
+		TargetSpeed = GetSpeedInKph();
+
+	SpeedLimiter.SetTargetSpeed(TargetSpeed);
+}
+
+void UCarMovementComponent::SetCruiseControl(bool bEnabled, float TargetSpeed)
+{
+	bEnableCruiseControl = bEnabled;
+
+	if (TargetSpeed <= 0.0f)
+		TargetSpeed = GetSpeedInKph();
+
+	CruiseControl.SetTargetSpeed(TargetSpeed);
 }
