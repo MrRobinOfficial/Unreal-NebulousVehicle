@@ -24,10 +24,14 @@
 	"Plugins": [
 		{
 			"Name": "EnhancedInput",
-			"Enabled":  true		
+			"Enabled": true
 		},
 		{
 			"Name": "ChaosVehiclesPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "Niagara",
 			"Enabled": true
 		}
 	]

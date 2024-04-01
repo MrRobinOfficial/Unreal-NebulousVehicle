@@ -1,16 +1,23 @@
 // Copyright 2023-2024 MrRobin. All Rights Reserved.
 
+// NebulousVehicle
 #include "Vehicles/CarArcade.h"
-// #include "Components/CarMovementComponent.h"
 
 #include "Libraries/ArcadeLibrary.h"
+//#include "Components/CarMovementComponent.h"
+
+// Engine
 #include "Kismet/GameplayStatics.h"
+#include "Components/LightComponent.h"
 
 // EnhancedInput
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "InputAction.h"
+
+// Niagara
+#include "NiagaraEmitter.h"
 
 ACarArcade::ACarArcade(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer) // ObjectInitializer.DoNotCreateDefaultSubobject(CameraComponentName).DoNotCreateDefaultSubobject(SpringArmComponentName)
@@ -67,16 +74,16 @@ void ACarArcade::SetHeadlightState(EHeadlightState NewState)
 	switch (NewState)
 	{
 		case EHeadlightState::Off:
-			UArcadeLibrary::SetActiveForLights(Headlight.Lights, false);
+			UArcadeLibrary::SetActiveForLights(Headlights.Data.Lights, false);
 			break;
 
 		case EHeadlightState::LowBeam:
-			UArcadeLibrary::SetActiveForLights(Headlight.Lights, true);
-			UArcadeLibrary::SetIntensityForLights(Headlight.Lights, Headlight.LowIntensity);
+			UArcadeLibrary::SetActiveForLights(Headlights.Data.Lights, true);
+			UArcadeLibrary::SetIntensityForLights(Headlights.Data.Lights, Headlights.LowIntensity);
 			break;
 
 		case EHeadlightState::HighBeam:
-			UArcadeLibrary::SetIntensityForLights(Headlight.Lights, Headlight.HighIntensity);
+			UArcadeLibrary::SetIntensityForLights(Headlights.Data.Lights, Headlights.HighIntensity);
 			break;
 	}
 
@@ -86,10 +93,10 @@ void ACarArcade::SetHeadlightState(EHeadlightState NewState)
 #pragma region Input Functions
 void ACarArcade::SetBrakeInput_Implementation(float AxisValue)
 {
-	Super::SetBrakeInput(AxisValue);
+	Super::SetBrakeInput_Implementation(AxisValue);
 
-	const float Intensity = Taillight.Intensity * AxisValue;
-	UArcadeLibrary::SetIntensityForLights(Taillight.Lights, Intensity);
+	const float Intensity = Taillights.Intensity * AxisValue;
+	UArcadeLibrary::SetIntensityForLights(Taillights.Data.Lights, Intensity);
 }
 #pragma endregion
 

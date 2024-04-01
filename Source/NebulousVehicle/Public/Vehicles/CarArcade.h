@@ -6,33 +6,33 @@
 #include "Vehicles/CarBase.h"
 #include "CarArcade.generated.h"
 
+class UNiagaraEmitter;
 class UInputAction;
 
 USTRUCT(BlueprintType)
-struct FCarMaterials
+struct FCarLights
 {
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
+	TArray<TObjectPtr<class ULightComponent>> Lights;
+
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
 	TArray<TObjectPtr<class UMaterialInstanceDynamic>> Materials;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
 	FName MaterialParameterName { TEXT("Intensity") };
 
-public:
-	void SetIntensity(float Intensity)
-	{
-		for (UMaterialInstanceDynamic* Material : Materials)
-			Material->SetScalarParameterValue(MaterialParameterName, Intensity);
-	}
-}
-
-USTRUCT(BlueprintType)
-struct FCarLights
-{
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
-	TArray<TObjectPtr<class ULightComponent>> Lights;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
-	FCarMaterials Materials;
+//public:
+//	void SetIntensity(float Intensity)
+//	{
+//		for (ULightComponent* Light : Lights)
+//			Light->SetIntensity(Intensity);
+//
+//		for (UMaterialInstanceDynamic* Material : Materials)
+//			Material->SetScalarParameterValue(MaterialParameterName, Intensity);
+//	}
 };
 
 USTRUCT(BlueprintType)
@@ -41,8 +41,11 @@ struct FCarBrakeDisc
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details|Visuals")
-	FCarMaterials Materials;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
+	TArray<TObjectPtr<class UMaterialInstanceDynamic>> Materials;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
+	FName MaterialParameterName { TEXT("Intensity") };
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details", meta = (ForceUnits = "Lumens", ClampMin = "0", UIMin = "0"))
 	float Intensity { 1300.0f };
@@ -57,13 +60,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FCarHeadlight
+struct FCarHeadlights
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
-	FCarLights Lights;
+	FCarLights Data;
+
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details", meta = (ForceUnits = "Lumens", ClampMin = "0", UIMin = "0"))
 	float LowIntensity { 700.0f };
@@ -73,13 +77,13 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FCarTaillight
+struct FCarTaillights
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details")
-	FCarLights Lights;
+	FCarLights Data;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details", meta = (ForceUnits = "Lumens", ClampMin = "0", UIMin = "0"))
 	float Intensity { 700.0f };
@@ -127,10 +131,10 @@ protected:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details|Visuals")
-	FCarHeadlight Headlight;
+	FCarHeadlights Headlights;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details|Visuals")
-	FCarTaillight Taillight;
+	FCarTaillights Taillights;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Details|Visuals")
 	FCarBrakeDisc BrakeDisc;

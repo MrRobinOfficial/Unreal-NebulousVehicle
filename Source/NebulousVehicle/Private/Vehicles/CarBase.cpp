@@ -198,7 +198,7 @@ float ACarBase::GetBrakeInput_Implementation() const
 
 float ACarBase::GetClutchInput_Implementation() const
 {
-	return CarMovementComponent->GetThrottleInput();
+	return CarMovementComponent->GetClutchInput();
 }
 
 bool ACarBase::GetHandbrakeInput_Implementation() const
@@ -279,46 +279,49 @@ void ACarBase::ShiftToGear_Implementation(int32 GearNum, bool bImmediate)
 #pragma region Input Callbacks
 void ACarBase::Input_OnSteering(const FInputActionValue& Value)
 {
-	SetSteeringInput(Value.Get<float>());
+	ICar::Execute_SetSteeringInput(this, Value.Get<float>());
 }
 
 void ACarBase::Input_OnThrottle(const FInputActionValue& Value)
 {
-	SetThrottleInput(Value.Get<float>());
+	ICar::Execute_SetThrottleInput(this, Value.Get<float>());
 }
 
 void ACarBase::Input_OnBrake(const FInputActionValue& Value)
 {
-	SetBrakeInput(Value.Get<float>());
+	ICar::Execute_SetBrakeInput(this, Value.Get<float>());
 }
 
 void ACarBase::Input_OnClutch(const FInputActionValue& Value)
 {
-	SetClutchInput(Value.Get<float>());
+	ICar::Execute_SetClutchInput(this, Value.Get<float>());
 }
 
 void ACarBase::Input_OnHandbrake(const FInputActionValue& Value)
 {
 	constinit static float HANDBRAKE_THRESHOLD = 0.5f;
-	SetHandbrakeInput(Value.Get<float>() >= HANDBRAKE_THRESHOLD);
+
+	ICar::Execute_SetHandbrakeInput(this, Value.Get<float>() >= HANDBRAKE_THRESHOLD);
 }
 
 void ACarBase::Input_OnPark(const FInputActionValue& Value)
 {
-	SetParkMode(!CarMovementComponent->IsParked());
+	ICar::Execute_SetParkMode(this, !CarMovementComponent->IsParked());
 }
 
 void ACarBase::Input_OnGearShiftedUp(const FInputActionValue& Value)
 {
 	int32 GearNum = CarMovementComponent->GetTargetGear();
 	GearNum++;
-	ShiftToGear(GearNum, true);
+
+	ICar::Execute_ShiftToGear(this, GearNum, true);
 }
 
 void ACarBase::Input_OnGearShiftedDown(const FInputActionValue& Value)
 {
 	int32 GearNum = CarMovementComponent->GetTargetGear();
 	GearNum--;
-	ShiftToGear(GearNum, true);
+
+	ICar::Execute_ShiftToGear(this, GearNum, true);
 }
 #pragma endregion

@@ -113,8 +113,8 @@ void UCarMovementComponent::SetSpeedLimiter(bool bEnabled, float TargetSpeed)
 {
 	bEnableSpeedLimiter = bEnabled;
 
-	if (TargetSpeed <= 0.0f)
-		TargetSpeed = GetSpeedInKph();
+	//if (TargetSpeed <= 0.0f)
+	//	TargetSpeed = GetSpeedInKph();
 
 	SpeedLimiter.SetTargetSpeed(TargetSpeed);
 }
@@ -123,8 +123,8 @@ void UCarMovementComponent::SetCruiseControl(bool bEnabled, float TargetSpeed)
 {
 	bEnableCruiseControl = bEnabled;
 
-	if (TargetSpeed <= 0.0f)
-		TargetSpeed = GetSpeedInKph();
+	//if (TargetSpeed <= 0.0f)
+	//	TargetSpeed = GetSpeedInKph();
 
 	CruiseControl.SetTargetSpeed(TargetSpeed);
 }

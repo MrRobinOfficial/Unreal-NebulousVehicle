@@ -33,7 +33,7 @@ protected:
     FPIDState PIDState;
 
 public:
-    FORCEINLINE float GetTargetSpeed() const { return TargetSpeed };
+    FORCEINLINE float GetTargetSpeed() const { return TargetSpeed; }
 
     void SetTargetSpeed(float NewSpeed)
     {
@@ -64,7 +64,7 @@ protected:
     FPIDState PIDState;
 
 public:
-    FORCEINLINE float GetTargetSpeed() const { return TargetSpeed };
+    FORCEINLINE float GetTargetSpeed() const { return TargetSpeed; }
 
     void SetTargetSpeed(float NewSpeed)
     {

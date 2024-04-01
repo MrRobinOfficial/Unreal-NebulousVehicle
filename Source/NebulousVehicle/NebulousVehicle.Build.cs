@@ -32,6 +32,8 @@ public class NebulousVehicle : ModuleRules
                 "ChaosVehiclesCore",
                 "ChaosVehiclesEngine",
                 "GameplayTags",
+
+                "AIModule",
             }
             );
 
@@ -43,8 +45,10 @@ public class NebulousVehicle : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-				// ... add private dependencies that you statically link with here ...	
-			}
+				// ... add private dependencies that you statically link with here ...
+
+                "Niagara",
+            }
             );
 
 
