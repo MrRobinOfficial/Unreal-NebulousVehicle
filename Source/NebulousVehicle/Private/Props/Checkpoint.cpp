@@ -8,14 +8,15 @@
 ACheckpoint::ACheckpoint()
     : Super()
 {
-    PrimaryActor.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 
     Collision = CreateDefaultSubobject<USphereComponent>(TEXT("Collision"));
-    Collision.SetSphereRadius(Radius);
-    Collision->bGenerateOverlapEvents = true;
+    Collision->SetSphereRadius(Radius);
+    Collision->SetGenerateOverlapEvents(true);
     Collision->SetupAttachment(RootComponent);
     Collision->SetCollisionResponseToChannel(ECC_Vehicle, ECR_Overlap);
-    Collision->bHiddenInGame = false;
+    //Collision->bHiddenInGame = false;
+    Collision->SetHiddenInGame(true);
 }
 
 void ACheckpoint::BeginPlay()

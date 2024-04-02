@@ -26,6 +26,8 @@ void URacerComponent::Respawn()
 
 float URacerComponent::CalcScore() const
 {
-    const FVector &OwnerLocation = GetOwner()->GetActorLocation();
-    return LapIndex + CheckpointIndex + FVector::DistSquared(CheckpointTransform, OwnerLocation);
+    const FVector& OwnerLocation = GetOwner()->GetActorLocation();
+    const FVector& CheckpointLocation = CheckpointTransform.GetLocation();
+
+    return LapIndex + CheckpointIndex + FVector::DistSquared(CheckpointLocation, OwnerLocation);
 }
